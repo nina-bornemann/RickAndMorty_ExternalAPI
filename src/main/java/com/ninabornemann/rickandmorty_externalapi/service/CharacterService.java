@@ -28,5 +28,12 @@ public class CharacterService {
                         .results();
         return characters;
     }
+
+    public CharacterResults getCharacterById(Integer id) {
+        return restClient.get()
+                .uri("/character/{id}", id)
+                .retrieve()
+                .body(CharacterResults.class);
+    }
 }
 
