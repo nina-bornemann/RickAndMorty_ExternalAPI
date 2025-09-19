@@ -1,11 +1,9 @@
 package com.ninabornemann.rickandmorty_externalapi.controller;
 
 import com.ninabornemann.rickandmorty_externalapi.model.CharacterResults;
+import com.ninabornemann.rickandmorty_externalapi.model.MultiCharacter;
 import com.ninabornemann.rickandmorty_externalapi.service.CharacterService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,5 +25,10 @@ public class CharacterController {
     @GetMapping("/{id}")
     public CharacterResults getCharacterById(@PathVariable Integer id) {
         return service.getCharacterById(id);
+    }
+
+    @GetMapping("/status")
+    public List<CharacterResults> getCharactersByStatus(@RequestParam String status) {
+        return  service.getCharactersByStatus(status);
     }
 }
