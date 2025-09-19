@@ -11,6 +11,7 @@ import org.springframework.web.util.UriUtils;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CharacterService {
@@ -48,6 +49,37 @@ public class CharacterService {
                     return builder.path("/character").
                             queryParam("status", status).
                             build();
+                })
+                .retrieve()
+                .body(MultiCharacter.class)
+                .results();
+    }
+
+    public List<CharacterResults> getAliveCharactersBySpecies(String species) {
+        return restClient.get()
+                .uri(builder -> {
+                    return builder.path("/character").
+                            queryParam("status", "alive")
+                            .queryParam("species", species)
+                            .build();
+                })
+                .retrieve()
+                .body(MultiCharacter.class)
+                .results();
+
+    }
+
+    public List<CharacterResults> getCharacters(Optional<String> status, Optional<String> species) {
+        return restClient.get()
+                .uri(builder -> {
+                    builder= builder.path("/character");
+                            if (status.isPresent()){
+                             builder=builder.queryParam("status", "alive");
+                            }
+                            if (species.isPresent()) {
+                            builder = builder.queryParam("species", species);
+                            }
+                           return builder.build();
                 })
                 .retrieve()
                 .body(MultiCharacter.class)
